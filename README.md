@@ -1,4 +1,4 @@
 # simple_ml_project_with_ci_cd
 ITMO Big data course lab1
 
-16 вариант 
+Dataset: https://www.kaggle.com/competitions/humpback-whale-identification
