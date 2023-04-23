@@ -8,21 +8,21 @@ from tqdm import tqdm
 from utils import read_config
 
 
-def resize_img(img_p):
+def resize_img(img_p) -> None:
     img_p = str(img_p)
     img = cv2.imread(img_p)
     img = cv2.resize(img, (224, 224))
     cv2.imwrite(img_p, img)
 
 
-def resize_images(data_dir: Path):
+def resize_images(data_dir: Path) -> None:
     _ = Parallel(n_jobs=-1)(
         delayed(resize_img)(img_path)
         for img_path in tqdm(list(data_dir.rglob("*.jpg")))
     )
 
 
-def split_data(data: pd.DataFrame):
+def split_data(data: pd.DataFrame) -> pd.DataFrame:
     # get 400 classes with 2 images + 100 new_whale
     data["stage"] = "train"
     new_whale_idxs = data.loc[data["Id"] == "new_whale"].index.tolist()
@@ -38,12 +38,13 @@ def split_data(data: pd.DataFrame):
     return data
 
 
-def preprocess(data_dir: str):
+def preprocess(data_dir: str) -> bool:
     data_dir = Path(data_dir)
     resize_images(data_dir)
     data = pd.read_csv(data_dir / "train.csv")
     data = split_data(data)
     data.to_csv(data_dir / "metadata.csv", index=False)
+    return (data_dir / "metadata.csv").exists()
 
 
 if __name__ == "__main__":

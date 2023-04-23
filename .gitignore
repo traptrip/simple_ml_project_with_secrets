@@ -132,3 +132,4 @@ data/humpback-whale-identification
 *.tar.gz
 *.zip
 runs/
+metadata.csv
