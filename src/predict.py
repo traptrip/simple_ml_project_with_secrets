@@ -19,18 +19,18 @@ def predict(net, test_dataloader, emb_db, device, save_path, thresh=0.8):
             emb = net(data.to(device))
             cos_sims = torch.nn.functional.cosine_similarity(emb, train_embs, dim=0)
             for j, cs in enumerate(cos_sims):
-                if cs > thresh: 
+                if cs > thresh:
                     labels[i].append(train_labels[j])
 
-    # filter empty 
-    for i, label in enumerate(labels): 
+    # filter empty
+    for i, label in enumerate(labels):
         if not label:
             labels[i] = ["new_whale"]
 
     prediction = pd.DataFrame(
         {
             "Image": [img_p.name for img_p in test_dataloader.dataset.imgs_list],
-            "Id": [" ".join(l) for l in labels]
+            "Id": [" ".join(l) for l in labels],
         }
     )
     prediction.to_csv(save_path, index=False)
@@ -48,4 +48,6 @@ if __name__ == "__main__":
 
     emb_db = torch.load(cfg.infer.embeddings_db_path, map_location=cfg.infer.device)
 
-    predict(net, test_dl, emb_db, cfg.infer.device, cfg.infer.save_path, cfg.infer.threshold)
+    predict(
+        net, test_dl, emb_db, cfg.infer.device, cfg.infer.save_path, cfg.infer.threshold
+    )

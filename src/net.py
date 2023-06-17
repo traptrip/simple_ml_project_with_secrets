@@ -16,7 +16,7 @@ class Net(pl.LightningModule):
         self.head_lr = cfg.head_lr
         self.backbone_lr = cfg.backbone_lr
         self.save_hyperparameters()
-        
+
     def forward(self, inputs, labels=None):
         logits = self.encoder(inputs)
         logits = torch.nn.functional.normalize(logits)

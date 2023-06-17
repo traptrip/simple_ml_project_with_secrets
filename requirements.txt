@@ -1,6 +1,5 @@
 numpy==1.24.2
 pandas==2.0.0
-matplotlib==3.7.1
 opencv-python-headless==4.7.0.72
 tqdm==4.65.0
 scikit-learn==1.2.2
@@ -9,13 +8,15 @@ omegaconf==2.3.0
 torch==2.0.0
 torchvision==0.15.1
 pytorch-metric-learning==2.1.0
-onnxruntime==1.14.1
 tensorboard==2.12.2
 timm==0.6.13
 lightning==2.0.1.post0
 
 kaggle==1.5.13
-jupyter==1.0.0
-notebook==6.5.4
 dvc==2.55.0
 dvc-gdrive==2.19.2
+
+black==23.3.0
+pytest==7.3.2
+pytest-black==0.3.12
+pytest-cov==4.1.0

@@ -5,7 +5,7 @@ import pandas as pd
 from joblib import Parallel, delayed
 from tqdm import tqdm
 
-from utils import read_config
+from src.utils import read_config
 
 
 def resize_img(img_p) -> None:

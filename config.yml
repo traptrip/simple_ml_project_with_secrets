@@ -6,20 +6,20 @@ train:
     data_dir: data/humpback-whale-identification
 
   net:
-    backbone_name: levit_128
-    pretrained: true
-    embedding_size: 384
+    backbone_name: mobilenetv2_035
+    pretrained: false
+    embedding_size: 64
     num_classes: 4604
 
   loss:
     num_classes: 4604
-    embedding_size: 384
+    embedding_size: 64
     margin: 16
     scale: 32
 
   trainer: 
-    devices: [1]
-    max_epochs: 1
+    devices: [0]
+    max_epochs: 2
     enable_checkpointing: true
     enable_progress_bar: true
     accumulate_grad_batches: 1
@@ -32,13 +32,13 @@ train:
   backbone_lr: 0.0001
   batch_size: 256
   save_emb_db_path: runs/lightning_logs
-  device: cuda:1
+  device: cuda:0
 
 infer: 
   dataset_dir: data/humpback-whale-identification
   checkpoint_path: runs/lightning_logs/version_0/checkpoints
   embeddings_db_path: runs/lightning_logs/version_0/emb_db.pth
   save_path: runs/lightning_logs/version_0/prediction.csv
-  device: cuda:1
+  device: cpu
   batch_size: 512
-  threshold: 0.85
+  threshold: 0.5

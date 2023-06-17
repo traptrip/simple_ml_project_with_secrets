@@ -19,14 +19,14 @@ def init_embeddings_db(train_dl, net, emb_size, batch_size, device, save_path):
         labels = []
         for i, (batch, label) in enumerate(tqdm(train_dl)):
             labels.extend(label.tolist())
-            embeddings[i: i+batch_size] = net(batch.to(device)).cpu()
+            embeddings[i : i + batch_size] = net(batch.to(device)).cpu()
 
         # generate embeddings database for each label
         emb_db = defaultdict(list)
         id2label = train_dl.dataset.id2label
         for i, id_ in enumerate(labels):
             emb_db[id2label[id_]].append(embeddings[i])
-        
+
         # average embeddings for each label
         for label, embs in emb_db.items():
             emb_db[label] = torch.nn.functional.normalize(
@@ -51,8 +51,13 @@ if __name__ == "__main__":
 
     # train
     trainer.fit(net, train_dl, val_dl)
- 
+
     # prepare embeddings_file
     init_embeddings_db(
-        train_dl, net, cfg.train.net.embedding_size, cfg.train.batch_size, cfg.train.device, cfg.train.save_emb_db_path
+        train_dl,
+        net,
+        cfg.train.net.embedding_size,
+        cfg.train.batch_size,
+        cfg.train.device,
+        cfg.train.save_emb_db_path,
     )
