@@ -6,9 +6,9 @@ import pytorch_lightning as pl
 from lightning.pytorch.loggers import TensorBoardLogger
 from tqdm import tqdm
 
-from dataset import get_dataloaders
-from utils import read_config, get_last_logs_dir
-from net import Net
+from src.dataset import get_dataloaders
+from src.utils import read_config, get_last_logs_dir
+from src.net import Net
 
 
 def init_embeddings_db(train_dl, net, emb_size, batch_size, device, save_path):
@@ -38,7 +38,7 @@ def init_embeddings_db(train_dl, net, emb_size, batch_size, device, save_path):
 
 
 if __name__ == "__main__":
-    cfg = read_config(Path(__file__).parent / "../config.yml")
+    cfg = read_config(Path(__file__).parent / "config.yml")
 
     # prepare data
     train_dl, val_dl, _ = get_dataloaders(Path(cfg.data.data_dir), cfg.train.batch_size)

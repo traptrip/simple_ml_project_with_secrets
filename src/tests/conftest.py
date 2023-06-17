@@ -43,7 +43,11 @@ def pytest_collection_modifyitems(config, items):
 @pytest.fixture()
 def config():
     cfg = read_config(DEFAULT_CFG_PATH)
-    cfg.data.data_dir = Path(__file__).parent / "../.." / cfg.data.data_dir
+    cfg.data.data_dir = "tests/tiny_dataset"
+    cfg.train.net.num_classes = 2
+    cfg.train.loss.num_classes = 2
+    cfg.train.batch_size = 2
+    cfg.infer.batch_size = 2
     return cfg
 
 

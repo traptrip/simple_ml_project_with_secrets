@@ -4,7 +4,6 @@ import pytest
 import torch
 import pytorch_lightning as pl
 
-
 from src.utils import get_last_logs_dir
 from src.dataset import get_dataloaders
 

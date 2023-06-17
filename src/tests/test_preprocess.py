@@ -1,9 +1,12 @@
+import sys
 from pathlib import Path
 
 import pytest
 import pandas as pd
 
-from src.preprocess import preprocess, split_data
+sys.path.append(Path(__file__).parent / "../")
+
+from preprocess import preprocess, split_data
 
 DEFAULT_TINY_DATA_DIR = Path(__file__).parent / "../../tests/tiny_dataset"
 

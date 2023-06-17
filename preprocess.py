@@ -48,6 +48,6 @@ def preprocess(data_dir: str) -> bool:
 
 
 if __name__ == "__main__":
-    cfg_path = Path(__file__).parent / "../config.yml"
+    cfg_path = Path(__file__).parent / "config.yml"
     cfg = read_config(cfg_path)
     preprocess(cfg.data.data_dir)

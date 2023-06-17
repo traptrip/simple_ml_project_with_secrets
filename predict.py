@@ -4,9 +4,9 @@ import torch
 import pandas as pd
 from tqdm import tqdm
 
-from utils import read_config
-from net import Net
-from dataset import get_dataloaders
+from src.utils import read_config
+from src.net import Net
+from src.dataset import get_dataloaders
 
 
 def predict(net, test_dataloader, emb_db, device, save_path, thresh=0.8):
@@ -37,7 +37,7 @@ def predict(net, test_dataloader, emb_db, device, save_path, thresh=0.8):
 
 
 if __name__ == "__main__":
-    cfg = read_config(Path(__file__).parent / "../config.yml")
+    cfg = read_config(Path(__file__).parent / "config.yml")
 
     _, _, test_dl = get_dataloaders(Path(cfg.infer.dataset_dir), 1)
 
