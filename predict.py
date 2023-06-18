@@ -1,3 +1,4 @@
+import logging
 from pathlib import Path
 
 import torch
@@ -6,10 +7,12 @@ from tqdm import tqdm
 
 from src.utils import read_config
 from src.net import Net
+from src.training import Trainer
 from src.dataset import get_dataloaders
+from database.mongo import MongoDB
 
 
-def predict(net, test_dataloader, emb_db, device, save_path, thresh=0.8):
+def predict(net, test_dataloader, emb_db, device, thresh=0.8):
     train_embs, train_labels = torch.stack(list(emb_db.values())), list(emb_db.keys())
     train_embs = train_embs.squeeze(1)
     labels = [[] for _ in range(len(test_dataloader.dataset))]
@@ -33,21 +36,30 @@ def predict(net, test_dataloader, emb_db, device, save_path, thresh=0.8):
             "Id": [" ".join(l) for l in labels],
         }
     )
-    prediction.to_csv(save_path, index=False)
+    return prediction
 
 
 if __name__ == "__main__":
     cfg = read_config(Path(__file__).parent / "config.yml")
 
+    logging.info("Initialize database client")
+    db_client = MongoDB(cfg.database.name, cfg.database.host, cfg.database.port)
+
+    logging.info("Initialize dataloaders")
     _, _, test_dl = get_dataloaders(Path(cfg.infer.dataset_dir), 1)
 
-    ckpt_path = list(Path(cfg.infer.checkpoint_path).glob("*.ckpt"))[0]
-    net = Net.load_from_checkpoint(ckpt_path, map_location=cfg.infer.device)
+    logging.info("Load checkpoint")
+    ckpt_path = Path(cfg.infer.checkpoint_path)
+    net = Net(cfg.train)
+    net.load_state_dict(Trainer(cfg.train).load_ckpt(ckpt_path)["net_state"])
     net.to(cfg.infer.device)
     net.eval()
 
-    emb_db = torch.load(cfg.infer.embeddings_db_path, map_location=cfg.infer.device)
+    logging.info("Uploading embeddings")
+    emb_db = db_client.get_all_embeddings()
 
-    predict(
-        net, test_dl, emb_db, cfg.infer.device, cfg.infer.save_path, cfg.infer.threshold
-    )
+    logging.info("Prediction")
+    prediction = predict(net, test_dl, emb_db, cfg.infer.device, cfg.infer.threshold)
+
+    logging.info("Save predictions")
+    db_client.insert_predicts(prediction)
