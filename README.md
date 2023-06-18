@@ -70,3 +70,12 @@ Also you can run testing using docker compose:
 ```bash
 docker compose up
 ```
+
+
+# Assets
+## Pytest local result
+![](./assets/pytest_result.png)
+
+## CI & CD configuration 
+- [CI Pipeline](https://github.com/traptrip/simple_ml_project_with_ci_cd/blob/main/.github/workflows/ci.yml)
+- [CD Pipeline](https://github.com/traptrip/simple_ml_project_with_ci_cd/blob/main/.github/workflows/cd.yml)
