@@ -36,8 +36,6 @@ class CustomDataset(Dataset):
         else:
             self.imgs_list = [img for img in self.dataset_dir.iterdir()]
 
-        print(len(self.imgs_list))
-
     def __len__(self):
         return len(self.imgs_list)
 
