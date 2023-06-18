@@ -4,16 +4,26 @@ import pandas as pd
 import torch
 from torch import Tensor
 from pymongo import MongoClient
+from ansible_vault import Vault
 
-DB_USER = os.getenv("DB_USER")
-DB_PASSWD = os.getenv("DB_PASSWORD")
-DB_HOST = os.getenv("DB_HOST")
-DB_PORT = os.getenv("DB_PORT")
-DB_NAME = os.getenv("DB_NAME")
+ANSIBLE_PASSWD = os.environ.get("ANSIBLE_PASSWD")
+
+
+def get_credentials():
+    vault = Vault(ANSIBLE_PASSWD)
+    with open("db.credentials", "r") as f:
+        credentials = iter(vault.load(f.read()).split(" "))
+    DB_USER = next(credentials)
+    DB_PASSWD = next(credentials)
+    DB_HOST = next(credentials)
+    DB_PORT = next(credentials)
+    DB_NAME = next(credentials)
+    return DB_USER, DB_PASSWD, DB_HOST, DB_PORT, DB_NAME
 
 
 class MongoDB:
     def __init__(self):
+        DB_USER, DB_PASSWD, DB_HOST, DB_PORT, DB_NAME = get_credentials()
         self.url = f"mongodb://{DB_USER}:{DB_PASSWD}@{DB_HOST}:{DB_PORT}/"
         self.mongo = MongoClient(self.url)
         self.db = self.mongo[DB_NAME]
