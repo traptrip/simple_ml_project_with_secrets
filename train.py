@@ -1,3 +1,4 @@
+import logging
 from pathlib import Path
 from collections import defaultdict
 
@@ -41,18 +42,22 @@ if __name__ == "__main__":
     cfg = read_config(Path(__file__).parent / "config.yml")
 
     # prepare data
+    logging.info("Prepare dataloaders")
     train_dl, val_dl, _ = get_dataloaders(Path(cfg.data.data_dir), cfg.train.batch_size)
 
     # prepare trainer
+    logging.info("Prepare trainer")
     net = Net(cfg.train)
 
     logger = TensorBoardLogger(cfg.train.trainer.default_root_dir)
     trainer = pl.Trainer(logger=logger, **cfg.train.trainer)
 
     # train
+    logging.info("Training")
     trainer.fit(net, train_dl, val_dl)
 
     # prepare embeddings_file
+    logging.info("Initialize embeddings DB")
     init_embeddings_db(
         train_dl,
         net,
