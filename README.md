@@ -7,6 +7,9 @@ Dataset: [humpback-whale-identification](https://www.kaggle.com/competitions/hum
 ├── .github                           <- Github Actions workflows
 ├── .dvc                              <- DVC configs
 │
+├── database                          <- Dir where database scripts are placed
+│   └── mongo.py                        <- MongoDB client API
+│
 ├── data                              <- Dir where dataset will be placed
 │   ├── download_data.sh                <- Download preprocessed data using dvc
 │   ├── download_full_kaggle_data.sh    <- Dowload raw dataset from Kaggle
@@ -55,7 +58,7 @@ sh data/preprocess_data.sh
     ```bash
     python predict.py
     ```
-- See prediction file in directory that you specified in `config.infer.save_path`
+- Prediction will be saved in MongoDB
 
 ## Testing 
 - Full testing (just run `pytest`)
@@ -77,5 +80,5 @@ docker compose up
 ![](./assets/pytest_result.png)
 
 ## CI & CD configuration 
-- [CI Pipeline](https://github.com/traptrip/simple_ml_project_with_ci_cd/blob/main/.github/workflows/ci.yml)
-- [CD Pipeline](https://github.com/traptrip/simple_ml_project_with_ci_cd/blob/main/.github/workflows/cd.yml)
+- [CI Pipeline](https://github.com/traptrip/simple_ml_project_with_database/blob/main/.github/workflows/ci.yml)
+- [CD Pipeline](https://github.com/traptrip/simple_ml_project_with_database/blob/main/.github/workflows/cd.yml)

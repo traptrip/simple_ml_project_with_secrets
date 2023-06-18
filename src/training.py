@@ -106,5 +106,5 @@ class Trainer:
         tb_writer.close()
         logging.info(f"Training was finished")
 
-        best_ckpt = self.load_ckpt(self.exp_dir / "best_checkpoint.pth")
+        best_ckpt = self.load_ckpt(self.exp_dir / "best.ckpt")
         self.net.load_state_dict(best_ckpt["net_state"])
