@@ -1,10 +1,9 @@
 import timm
 import torch
-import pytorch_lightning as pl
 from pytorch_metric_learning import losses
 
 
-class Net(pl.LightningModule):
+class Net(torch.nn.Module):
     def __init__(self, cfg):
         super().__init__()
         self.encoder = timm.create_model(
@@ -15,7 +14,9 @@ class Net(pl.LightningModule):
         self.criterion = losses.ArcFaceLoss(**cfg.loss)
         self.head_lr = cfg.head_lr
         self.backbone_lr = cfg.backbone_lr
-        self.save_hyperparameters()
+
+        self.encoder = self.encoder.to(cfg.device)
+        self.criterion = self.criterion.to(cfg.device)
 
     def forward(self, inputs, labels=None):
         logits = self.encoder(inputs)
@@ -25,12 +26,6 @@ class Net(pl.LightningModule):
             loss = self.criterion(logits, labels)
             return loss, logits
         return logits
-
-    def training_step(self, batch, batch_idx):
-        data, labels = batch
-        loss, logits = self(data, labels)
-        self.log("train_loss", loss)
-        return {"loss": loss}
 
     def configure_optimizers(self):
         param_groups = [

@@ -18,8 +18,3 @@ def get_transforms():
 
 def read_config(cfg_path: str):
     return OmegaConf.load(cfg_path)
-
-
-def get_last_logs_dir(logs_dir: Path):
-    versions_paths = [logs_p.name for logs_p in logs_dir.iterdir()]
-    return logs_dir / max(versions_paths, key=lambda p: int(p.split("_")[-1]))

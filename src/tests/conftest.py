@@ -49,7 +49,6 @@ def config():
     cfg.train.batch_size = 2
     cfg.infer.batch_size = 2
     cfg.train.device = "cpu"
-    del cfg.train.trainer.devices
     return cfg
 
 

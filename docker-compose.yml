@@ -1,10 +1,24 @@
 version: '3.8'
 
 services:
-  app:
+  test:
     build: .
-    image: pythondestroyer/simple_ml_project_with_ci_cd:main
+    image: pythondestroyer/simple_ml_project_with_database:main
     command: pytest --skip-slow # remove skip-slow if want to test training phase too
     volumes: 
       - ./data/:/app/data
       - ./runs:/app/runs
+    environment:
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_HOST=${DB_HOST}
+      - DB_PORT=${DB_PORT}
+      - DB_NAME=${DB_NAME}
+    depends_on:
+      - mongo
+
+  mongo:
+    image: mongo:6.0.6
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${DB_USER}
+      - MONGO_INITDB_ROOT_PASSWORD=${DB_PASSWORD}

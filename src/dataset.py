@@ -36,8 +36,6 @@ class CustomDataset(Dataset):
         else:
             self.imgs_list = [img for img in self.dataset_dir.iterdir()]
 
-        print(len(self.imgs_list))
-
     def __len__(self):
         return len(self.imgs_list)
 
@@ -68,11 +66,7 @@ def get_dataloaders(dataset_dir: str, batch_size: int):
         pin_memory=True,
         drop_last=True,
     )
-    val_dl = DataLoader(
-        val_ds, batch_size=batch_size, shuffle=False, num_workers=4, pin_memory=True
-    )
-    test_dl = DataLoader(
-        test_ds, batch_size=batch_size, shuffle=False, num_workers=4, pin_memory=True
-    )
+    val_dl = DataLoader(val_ds, batch_size=batch_size, shuffle=False, num_workers=4)
+    test_dl = DataLoader(test_ds, batch_size=batch_size, shuffle=False, num_workers=4)
 
     return train_dl, val_dl, test_dl

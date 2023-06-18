@@ -17,28 +17,17 @@ train:
     margin: 16
     scale: 32
 
-  trainer: 
-    devices: [0]
-    max_epochs: 2
-    enable_checkpointing: true
-    enable_progress_bar: true
-    accumulate_grad_batches: 1
-    gradient_clip_val: 1
-    default_root_dir: runs/
-
-
+  n_epochs: 2
+  exp_dir: runs/
   seed: 42
   head_lr: 0.001
   backbone_lr: 0.0001
-  batch_size: 256
-  save_emb_db_path: runs/lightning_logs
-  device: cuda:0
+  batch_size: 64
+  device: cpu
 
 infer: 
   dataset_dir: data/humpback-whale-identification
-  checkpoint_path: runs/lightning_logs/version_0/checkpoints
-  embeddings_db_path: runs/lightning_logs/version_0/emb_db.pth
-  save_path: runs/lightning_logs/version_0/prediction.csv
+  checkpoint_path: runs/best.ckpt
   device: cpu
-  batch_size: 512
+  batch_size: 64
   threshold: 0.5
