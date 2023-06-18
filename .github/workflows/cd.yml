@@ -1,0 +1,31 @@
+name: CD pipeline
+
+on:
+  workflow_run:
+    workflows: [CI pipeline]
+    types:
+      - completed
+
+env:
+  REGISTRY: docker.io
+  IMAGE_NAME: ${{ secrets.DOCKERHUB_USERNAME }}/simple_ml_project_with_ci_cd # ${{ github.repository }}
+
+
+jobs:
+  cd:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      
+      - name: Log into registry ${{ env.REGISTRY }}
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      
+      - name: Pull with Docker Compose
+        run: docker compose pull
+      
+      - name: Run tests
+        run: docker compose up --abort-on-container-exit

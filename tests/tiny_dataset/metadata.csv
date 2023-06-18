@@ -1,0 +1,7 @@
+Image,Id,stage
+1.jpg,0,train
+2.jpg,0,train
+3.jpg,0,train
+4.jpg,1,val
+5.jpg,1,val
+6.jpg,0,train
