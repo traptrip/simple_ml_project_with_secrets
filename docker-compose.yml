@@ -7,4 +7,4 @@ services:
     command: pytest --skip-slow # remove skip-slow if want to test training phase too
     volumes: 
       - ./data/:/app/data
-      - ./runs/lightning_logs/version_0:/app/models
+      - ./runs:/app/runs
