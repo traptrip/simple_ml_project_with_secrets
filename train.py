@@ -41,7 +41,7 @@ if __name__ == "__main__":
 
     # prepare database
     logging.info("Initialize database client")
-    db_client = MongoDB(cfg.database.name, cfg.database.host, cfg.database.port)
+    db_client = MongoDB()
 
     # prepare data
     logging.info("Prepare dataloaders")

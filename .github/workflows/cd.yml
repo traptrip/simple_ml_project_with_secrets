@@ -28,4 +28,4 @@ jobs:
         run: docker compose pull
       
       - name: Run tests
-        run: docker compose up --abort-on-container-exit
+        run: timeout 15 sh -c 'docker compose up --abort-on-container-exit'

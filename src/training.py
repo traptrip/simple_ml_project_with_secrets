@@ -89,7 +89,7 @@ class Trainer:
                     "criterion_state": self.criterion.state_dict(),
                     "optimizer_state": self.optimizer.state_dict(),
                 }
-                torch.save(checkpoint, self.exp_dir / "best_checkpoint.pth")
+                torch.save(checkpoint, self.exp_dir / "best.ckpt")
 
             # save last ckeckpoint
             checkpoint = {
@@ -99,7 +99,7 @@ class Trainer:
                 "criterion_state": self.criterion.state_dict(),
                 "optimizer_state": self.optimizer.state_dict(),
             }
-            torch.save(checkpoint, self.exp_dir / "last_checkpoint.pth")
+            torch.save(checkpoint, self.exp_dir / "last.ckpt")
 
             epoch += 1
 

@@ -43,7 +43,7 @@ if __name__ == "__main__":
     cfg = read_config(Path(__file__).parent / "config.yml")
 
     logging.info("Initialize database client")
-    db_client = MongoDB(cfg.database.name, cfg.database.host, cfg.database.port)
+    db_client = MongoDB()
 
     logging.info("Initialize dataloaders")
     _, _, test_dl = get_dataloaders(Path(cfg.infer.dataset_dir), 1)
