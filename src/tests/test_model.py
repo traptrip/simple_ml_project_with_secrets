@@ -22,6 +22,6 @@ def test_training(config):
     trainer = Trainer(config.train)
     trainer.train(train_dl, val_dl)
 
-    logs_dir = Path(config.train.trainer.exp_dir)
+    logs_dir = Path(config.train.exp_dir)
     assert logs_dir.exists()
     assert (logs_dir / "best.ckpt").exists()
