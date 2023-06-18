@@ -8,6 +8,7 @@ ARG DB_HOST
 ARG DB_PORT
 ARG DB_NAME
 ARG ANSIBLE_PASSWD
+ENV PYTHONUNBUFFERED 1
 
 COPY requirements.txt requirements.txt
 RUN pip install --upgrade pip && pip install -r requirements.txt
