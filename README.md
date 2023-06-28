@@ -1,4 +1,4 @@
-# Simple ML project with CI & CD
+# Simple ML project with CI & CD & DB & Ansible
 
 Dataset: [humpback-whale-identification](https://www.kaggle.com/competitions/humpback-whale-identification)
 
@@ -34,6 +34,13 @@ Dataset: [humpback-whale-identification](https://www.kaggle.com/competitions/hum
 ```
 
 # Quick start
+
+## Initialize environment variables
+Create **.env** file in project dir. Example: [./.env_example](.env_example)
+```bash
+sh init_env.sh
+```
+
 ## Download dataset
 ### Using dvc
 ```bash
